@@ -1,0 +1,2 @@
+# practice_sqlite3
+SQLite3の勉強のためのレポジトリ
