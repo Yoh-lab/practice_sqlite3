@@ -51,13 +51,8 @@ const Kyaku = () => {
                 navigate("/error");
             });
     };
-    const handleClick = async (event) => {
-        navigate("/change",
-            {
-                state: {
-                    "namae": namae, "nenrei": nenrei
-                }
-            });
+    const handleClick = (kyaku: string) => {
+        navigate(`/change/${kyaku[0]}/`);
     }
     return (
         <div>
@@ -66,7 +61,7 @@ const Kyaku = () => {
                     <Text fontSize={"3xl"} >登録した客</Text>
                     <Box>
                         {kyakuList.map((kyaku) => (
-                            <Text fontSize={"xl"} color='teal.500' onClick={handleClick}>{kyaku}</Text>
+                            <Text fontSize={"xl"} color='teal.500' onClick={() => handleClick(kyaku)}>{kyaku}</Text>
                         ))
                         }
                     </Box>

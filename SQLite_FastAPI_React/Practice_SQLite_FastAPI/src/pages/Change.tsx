@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { Box, Button, FormControl, FormLabel, Input, Text, VStack } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-type KyakuDataProps = {
-    namae: string;
-    nenrei: number;
-};
-
-const Change = (prop: KyakuDataProps) => {
+const Change = () => {
     const navigate = useNavigate();
     const [changedNamae, setChangedNamae] = useState('');
     const [changedNenrei, setChangedNenrei] = useState('');
-    const namae = prop.namae;
-    const nenrei = prop.nenrei;
+    const [nenrei, setNenrei] = useState('');
+    const params = useParams();
+    const namae = params.namae;
 
     const url = "http://127.0.0.1:8000/";
 
     useEffect(() => {
+        console.log("params");
+        console.log(params.namae);
         axios
             .get(url + "kyaku/" + namae)
             .then((response) => {
-                console.log(response.data.result);
-                // console.log(response.data[0]["image_url"]);
+                if (response.data["result"] === "success") {
+                    console.log(response.data["data"]);
+                    setNenrei(response.data["data"]["nenrei"]);//画面をリロード
+                } else {
+                    navigate("/error");
+                }
             })
             .catch((response) => {
                 console.log(response.data);
@@ -31,11 +33,11 @@ const Change = (prop: KyakuDataProps) => {
     }, []);
 
     const handleChange = async () => {
-        console.log({ namae, nenrei });
-        console.log(url + "kousin/" + namae);
+        console.log({ changedNamae, changedNenrei });
+        console.log(url + "kousin/" + changedNamae);
         axios
             .post(
-                url + "kousin/" + namae,
+                url + "kousin/" + changedNamae,
                 {
                     "namae": changedNamae,
                     "nenrei": changedNenrei,
@@ -60,10 +62,12 @@ const Change = (prop: KyakuDataProps) => {
         <div>
             <VStack>
                 <VStack marginBottom={8}>
-                    <Text fontSize={"3xl"}>名前</Text>
+                    <Text fontSize={"xl"}>名前</Text>
+                    <Text fontSize={"3xl"}>{params.namae}</Text>
                     <Box>
                     </Box>
                     <Text fontSize={"3xl"}>年齢</Text>
+                    <Text fontSize={"3xl"}>{nenrei}</Text>
                 </VStack>
                 <Box>
                     <Text fontSize={"3xl"}>客情報を変更する</Text>

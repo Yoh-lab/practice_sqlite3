@@ -37,6 +37,7 @@ function App() {
                 {/* /signupパスに対するルート要素としてSignUpPageコンポーネントを設定 */}
                 <Route path={`/error`} element={<Error />} />
                 {/* <Route path={`/change`} element={<Change />} /> */}
+                <Route path={`/change/:namae`} element={<Change />} />
               </Routes>
             </BrowserRouter>
             <div className="progress-bar"></div>

@@ -55,9 +55,10 @@ def index(request: Request):
 
 
 @app.get('/kyaku/{namae}')
-def kyaku(data: dict):
+def kyaku(request: Request, namae: str):
+    print("namae")
+    print(namae)
     with sqlite3.connect(dbfile) as conn:
-        namae = data["namae"]  # 名前
         sql_select = '''
             select * from kyaku where namae==?
         '''  # その名前を持つキャラのデータを取る
